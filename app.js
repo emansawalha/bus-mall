@@ -1,6 +1,9 @@
 'use strict';
 
+
 let maximumClicks = 25;
+
+
 let attempts = 0;
 //let divContainer = document.getElementById('container')
 let firstImageElement = document.getElementById('firstImage');
@@ -8,10 +11,13 @@ let secondImageElement = document.getElementById('secondImage');
 let thirdImageElement = document.getElementById('thirdImage');
 
 let arrOfObjects = [];
+
 let arrOfProduct=[];
 let arrOfprodSelect=[];
 let arrImageShown= [];
 let arrayOfThreeImg=[];
+
+
 function BusMall(prodName, imgPath) {
     this.prodName = prodName;
     this.imgPath = imgPath;
@@ -20,7 +26,9 @@ function BusMall(prodName, imgPath) {
 
 
     arrOfObjects.push(this);
+
     arrOfProduct.push(this.prodName); 
+
 }
 new BusMall('bag', 'img/assets-lab11/bag.jpg')
 new BusMall('banan', 'img/assets-lab11/banana.jpg')
@@ -50,6 +58,7 @@ function renderThreeRandomImages() {
     firstImageIndex = generateRandomIndex();
     secondImageIndex = generateRandomIndex();
     thirdImageIndex = generateRandomIndex();
+
     while (firstImageIndex === secondImageIndex || firstImageIndex === thirdImageIndex || secondImageIndex === thirdImageIndex || 
         arrayOfThreeImg.includes(firstImageIndex) || arrayOfThreeImg.includes(secondImageIndex)||arrayOfThreeImg.includes(thirdImageIndex) )
          {
@@ -68,6 +77,23 @@ function renderThreeRandomImages() {
     firstImageElement.setAttribute('src', arrOfObjects[firstImageIndex].imgPath)
     secondImageElement.setAttribute('src', arrOfObjects[secondImageIndex].imgPath);
     thirdImageElement.setAttribute('src', arrOfObjects[thirdImageIndex].imgPath)
+
+    while ((firstImageIndex === secondImageIndex) || (firstImageIndex === thirdImageIndex) || (secondImageIndex === thirdImageIndex)) {
+        secondImageIndex = generateRandomIndex();
+        thirdImageIndex = generateRandomIndex();
+    }
+    // to show image of products 
+    firstImageElement.setAttribute('src',arrOfObjects[firstImageIndex].imgPath)
+    secondImageElement.setAttribute('src' ,arrOfObjects[secondImageIndex].imgPath);
+    thirdImageElement.setAttribute('src',arrOfObjects[thirdImageIndex].imgPath)
+
+    // to count the no. of shown image 
+    arrOfObjects[firstImageIndex].imageShown++;
+    arrOfObjects[secondImageIndex].imageShown++;
+    arrOfObjects[thirdImageIndex].imageShown++;
+    
+
+
 }
 
 
@@ -82,6 +108,7 @@ renderThreeRandomImages();
 firstImageElement.addEventListener('click', handleClicking);
 secondImageElement.addEventListener('click', handleClicking);
 thirdImageElement.addEventListener('click', handleClicking);
+
 
 
 
@@ -252,4 +279,46 @@ var chart = new Chart(ctx, {
     options: {}
 });
 }
+function handleClicking(event){
+attempts++;
+if(attempts <= maximumClicks){
+
+    if(event.target.id === 'firstImage'){
+        arrOfObjects[firstImageIndex].prodSelect ++;
+
+    }
+    if(event.target.id === 'secondImage'){
+        arrOfObjects[secondImageIndex].prodSelect++;
+
+    }
+    if(event.target.id === 'thirdImage'){
+        arrOfObjects[thirdImageIndex].prodSelect++;
+
+}
+renderThreeRandomImages();
+console.log(arrOfObjects)
+
+}else{
+    let unorderdList = document.getElementById('unList');
+    let li;
+    for(let i = 0 ; i < arrOfObjects.length; i++){
+        li = document.createElement('li');
+        unorderdList.appendChild(li);
+        li.textContent = `${arrOfObjects[i].prodName}  had ${arrOfObjects[i].prodSelect} votes and shown  ${arrOfObjects[i].imageShown}times.`
+
+
+}
+
+
+firstImageElement.removeEventListener('click', handleClicking);
+secondImageElement.removeEventListener('click', handleClicking);
+thirdImageElement.removeEventListener('click', handleClicking);    
+}
+}
+function resultBtn(){
+    let btn = document.getElementById('unList');
+    
+    }
+
+
 
