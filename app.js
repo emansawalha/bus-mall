@@ -10,12 +10,12 @@ let firstImageElement = document.getElementById('firstImage');
 let secondImageElement = document.getElementById('secondImage');
 let thirdImageElement = document.getElementById('thirdImage');
 
-let arrOfObjects = [];
+//let arrOfObjects = [];
 
 let arrOfProduct=[];
 let arrOfprodSelect=[];
 let arrImageShown= [];
-let arrayOfThreeImg=[];
+//let arrayOfThreeImg=[];
 
 
 function BusMall(prodName, imgPath) {
@@ -25,11 +25,13 @@ function BusMall(prodName, imgPath) {
     this.prodSelect = 0;
 
 
-    arrOfObjects.push(this);
+    BusMall.product.push(this);
 
     arrOfProduct.push(this.prodName); 
 
 }
+BusMall.product=[];
+
 new BusMall('bag', 'img/assets-lab11/bag.jpg')
 new BusMall('banan', 'img/assets-lab11/banana.jpg')
 new BusMall('bathroom', 'img/assets-lab11/bathroom.jpg')
@@ -59,38 +61,37 @@ function renderThreeRandomImages() {
     secondImageIndex = generateRandomIndex();
     thirdImageIndex = generateRandomIndex();
 
-    while (firstImageIndex === secondImageIndex || firstImageIndex === thirdImageIndex || secondImageIndex === thirdImageIndex || 
-        arrayOfThreeImg.includes(firstImageIndex) || arrayOfThreeImg.includes(secondImageIndex)||arrayOfThreeImg.includes(thirdImageIndex) )
-         {
-        secondImageIndex = generateRandomIndex();
-        thirdImageIndex = generateRandomIndex();
-    }
+  //  while (firstImageIndex === secondImageIndex || firstImageIndex === thirdImageIndex || secondImageIndex === thirdImageIndex || 
+    //   arrayOfThreeImg.includes(firstImageIndex) || arrayOfThreeImg.includes(secondImageIndex)||arrayOfThreeImg.includes(thirdImageIndex) )
+    //     {
+     //  secondImageIndex = generateRandomIndex();
+     //   thirdImageIndex = generateRandomIndex();
+ //   }
   
-    arrayOfThreeImg[0]=firstImageIndex;
-    arrayOfThreeImg[1]=secondImageIndex;
-    arrayOfThreeImg[2]=thirdImageIndex;
+ //   arrayOfThreeImg[0]=firstImageIndex;
+ //   arrayOfThreeImg[1]=secondImageIndex;
+ //  arrayOfThreeImg[2]=thirdImageIndex;
 
-    arrOfObjects[firstImageIndex].imageShown++;
-    arrOfObjects[secondImageIndex].imageShown++;
-    arrOfObjects[thirdImageIndex].imageShown++;
-
-    firstImageElement.setAttribute('src', arrOfObjects[firstImageIndex].imgPath)
-    secondImageElement.setAttribute('src', arrOfObjects[secondImageIndex].imgPath);
-    thirdImageElement.setAttribute('src', arrOfObjects[thirdImageIndex].imgPath)
+  //  arrOfObjects[firstImageIndex].imageShown++;
+  //  arrOfObjects[secondImageIndex].imageShown++;
+  //  arrOfObjects[thirdImageIndex].imageShown++;
+// firstImageElement.setAttribute('src', arrOfObjects[firstImageIndex].imgPath)
+   // secondImageElement.setAttribute('src', arrOfObjects[secondImageIndex].imgPath);
+    //thirdImageElement.setAttribute('src', arrOfObjects[thirdImageIndex].imgPath)
 
     while ((firstImageIndex === secondImageIndex) || (firstImageIndex === thirdImageIndex) || (secondImageIndex === thirdImageIndex)) {
         secondImageIndex = generateRandomIndex();
-        thirdImageIndex = generateRandomIndex();
+      thirdImageIndex = generateRandomIndex();
     }
     // to show image of products 
-    firstImageElement.setAttribute('src',arrOfObjects[firstImageIndex].imgPath)
-    secondImageElement.setAttribute('src' ,arrOfObjects[secondImageIndex].imgPath);
-    thirdImageElement.setAttribute('src',arrOfObjects[thirdImageIndex].imgPath)
+    firstImageElement.setAttribute('src',BusMall.product[firstImageIndex].imgPath)
+   secondImageElement.setAttribute('src' ,BusMall.product[secondImageIndex].imgPath);
+    thirdImageElement.setAttribute('src',BusMall.product[thirdImageIndex].imgPath)
 
     // to count the no. of shown image 
-    arrOfObjects[firstImageIndex].imageShown++;
-    arrOfObjects[secondImageIndex].imageShown++;
-    arrOfObjects[thirdImageIndex].imageShown++;
+    BusMall.product[firstImageIndex].imageShown++;
+    BusMall.product[secondImageIndex].imageShown++;
+    BusMall.product[thirdImageIndex].imageShown++;
     
 
 
@@ -99,11 +100,12 @@ function renderThreeRandomImages() {
 
 function generateRandomIndex() {
 
-    let randomIndex = Math.floor(Math.random() * arrOfObjects.length);
+    let randomIndex = Math.floor(Math.random() * BusMall.product.length);
     return randomIndex;
 }
 
 renderThreeRandomImages();
+
 
 firstImageElement.addEventListener('click', handleClicking);
 secondImageElement.addEventListener('click', handleClicking);
@@ -117,42 +119,41 @@ function handleClicking(event) {
     if (attempts <= maximumClicks) {
 
         if (event.target.id === 'firstImage') {
-            arrOfObjects[firstImageIndex].prodSelect++;
+            BusMall.product[firstImageIndex].prodSelect++;
 
         }
         if (event.target.id === 'secondImage') {
-            arrOfObjects[secondImageIndex].prodSelect++;
+            BusMall.product[secondImageIndex].prodSelect++;
 
         }
         if (event.target.id === 'thirdImage') {
-            arrOfObjects[thirdImageIndex].prodSelect++;
+            BusMall.product[thirdImageIndex].prodSelect++;
 
         }
+        savedSelectedItem();
         renderThreeRandomImages();
-        console.log(arrOfObjects)
-
+        //console.log(BusMall.product)
+      
     } else {
         let unorderdList = document.getElementById('unList');
         let li;
-        for (let i = 0; i < arrOfObjects.length; i++) {
+        for (let i = 0; i < BusMall.product.length; i++) {
             li = document.createElement('li');
             unorderdList.appendChild(li);
-            li.textContent = `${arrOfObjects[i].prodName}  had ${arrOfObjects[i].prodSelect} votes and shown  ${arrOfObjects[i].imageShown}times.`
+            li.textContent = `${BusMall.product[i].prodName}  had ${BusMall.product[i].prodSelect} votes and shown  ${BusMall.product[i].imageShown}times.`
 
 
         }
-        for(let j=0 ; j<arrOfObjects.length;j++)
+        for(let j=0 ; j<BusMall.product.length;j++)
         {
-            arrOfprodSelect.push(arrOfObjects[j].prodSelect)
-            arrImageShown.push(arrOfObjects[j].imageShown)
+            arrOfprodSelect.push(BusMall.product[j].prodSelect)
+            arrImageShown.push(BusMall.product[j].imageShown)
             
         }
+        
         chartRender();
-     
+        
 
-        firstImageElement.removeEventListener('click', handleClicking);
-        secondImageElement.removeEventListener('click', handleClicking);
-        thirdImageElement.removeEventListener('click', handleClicking);
     }
 }
 function resultBtn() {
@@ -279,46 +280,23 @@ var chart = new Chart(ctx, {
     options: {}
 });
 }
-function handleClicking(event){
-attempts++;
-if(attempts <= maximumClicks){
 
-    if(event.target.id === 'firstImage'){
-        arrOfObjects[firstImageIndex].prodSelect ++;
+function savedSelectedItem(){
+    let saved = JSON.stringify(BusMall.product);
+    localStorage.setItem('SelectedItem',saved);
+    console.log(savedSelectedItem)
+}
 
+function getSelectedItem(){
+    let selected = localStorage.getItem('SelectedItem')
+    let item = JSON.parse(selected)
+    if(item){
+        BusMall.product=item ;
+    }else{
+        BusMall.product=[]
     }
-    if(event.target.id === 'secondImage'){
-        arrOfObjects[secondImageIndex].prodSelect++;
-
-    }
-    if(event.target.id === 'thirdImage'){
-        arrOfObjects[thirdImageIndex].prodSelect++;
-
+    renderThreeRandomImages();
 }
-renderThreeRandomImages();
-console.log(arrOfObjects)
-
-}else{
-    let unorderdList = document.getElementById('unList');
-    let li;
-    for(let i = 0 ; i < arrOfObjects.length; i++){
-        li = document.createElement('li');
-        unorderdList.appendChild(li);
-        li.textContent = `${arrOfObjects[i].prodName}  had ${arrOfObjects[i].prodSelect} votes and shown  ${arrOfObjects[i].imageShown}times.`
-
-
-}
-
-
-firstImageElement.removeEventListener('click', handleClicking);
-secondImageElement.removeEventListener('click', handleClicking);
-thirdImageElement.removeEventListener('click', handleClicking);    
-}
-}
-function resultBtn(){
-    let btn = document.getElementById('unList');
-    
-    }
-
+getSelectedItem();
 
 
