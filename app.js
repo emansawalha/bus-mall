@@ -12,10 +12,10 @@ let thirdImageElement = document.getElementById('thirdImage');
 
 //let arrOfObjects = [];
 
-let arrOfProduct=[];
-let arrOfprodSelect=[];
-let arrImageShown= [];
-//let arrayOfThreeImg=[];
+let arrOfProduct = [];
+let arrOfprodSelect = [];
+let arrImageShown = [];
+let arrayOfThreeImg=[];
 
 
 function BusMall(prodName, imgPath) {
@@ -27,10 +27,10 @@ function BusMall(prodName, imgPath) {
 
     BusMall.product.push(this);
 
-    arrOfProduct.push(this.prodName); 
+    arrOfProduct.push(this.prodName);
 
 }
-BusMall.product=[];
+BusMall.product = [];
 
 new BusMall('bag', 'img/assets-lab11/bag.jpg')
 new BusMall('banan', 'img/assets-lab11/banana.jpg')
@@ -49,50 +49,58 @@ new BusMall('unicorn', 'img/assets-lab11/unicorn.jpg')
 new BusMall('water-can', 'img/assets-lab11/water-can.jpg')
 new BusMall('wine-glass', 'img/assets-lab11/wine-glass.jpg')
 new BusMall('chair', 'img/assets-lab11/chair.jpg')
-new BusMall('dog-duck', 'img/assets-lab11/dog-duck.jpg')
+//new BusMall('dog-duck', 'img/assets-lab11/dog-duck.jpg')
 new BusMall('pen', 'img/assets-lab11/pen.jpg')
 
 //console.log(arrOfObjects);
-let firstImageIndex;
-let secondImageIndex;
-let thirdImageIndex;
+let firstImageIndex = -1;
+let secondImageIndex =-1;
+let thirdImageIndex=-1;
 function renderThreeRandomImages() {
     firstImageIndex = generateRandomIndex();
     secondImageIndex = generateRandomIndex();
     thirdImageIndex = generateRandomIndex();
 
-  //  while (firstImageIndex === secondImageIndex || firstImageIndex === thirdImageIndex || secondImageIndex === thirdImageIndex || 
+    //  while (firstImageIndex === secondImageIndex || firstImageIndex === thirdImageIndex || secondImageIndex === thirdImageIndex || 
     //   arrayOfThreeImg.includes(firstImageIndex) || arrayOfThreeImg.includes(secondImageIndex)||arrayOfThreeImg.includes(thirdImageIndex) )
     //     {
-     //  secondImageIndex = generateRandomIndex();
-     //   thirdImageIndex = generateRandomIndex();
- //   }
-  
- //   arrayOfThreeImg[0]=firstImageIndex;
- //   arrayOfThreeImg[1]=secondImageIndex;
- //  arrayOfThreeImg[2]=thirdImageIndex;
+    //  secondImageIndex = generateRandomIndex();
+    //   thirdImageIndex = generateRandomIndex();
+    //   }
 
-  //  arrOfObjects[firstImageIndex].imageShown++;
-  //  arrOfObjects[secondImageIndex].imageShown++;
-  //  arrOfObjects[thirdImageIndex].imageShown++;
-// firstImageElement.setAttribute('src', arrOfObjects[firstImageIndex].imgPath)
-   // secondImageElement.setAttribute('src', arrOfObjects[secondImageIndex].imgPath);
+    //   arrayOfThreeImg[0]=firstImageIndex;
+    //   arrayOfThreeImg[1]=secondImageIndex;
+    //  arrayOfThreeImg[2]=thirdImageIndex;
+
+    //  arrOfObjects[firstImageIndex].imageShown++;
+    //  arrOfObjects[secondImageIndex].imageShown++;
+    //  arrOfObjects[thirdImageIndex].imageShown++;
+    // firstImageElement.setAttribute('src', arrOfObjects[firstImageIndex].imgPath)
+    // secondImageElement.setAttribute('src', arrOfObjects[secondImageIndex].imgPath);
     //thirdImageElement.setAttribute('src', arrOfObjects[thirdImageIndex].imgPath)
 
-    while ((firstImageIndex === secondImageIndex) || (firstImageIndex === thirdImageIndex) || (secondImageIndex === thirdImageIndex)) {
+    while ((firstImageIndex === secondImageIndex) || (firstImageIndex === thirdImageIndex) || (secondImageIndex === thirdImageIndex)||  arrayOfThreeImg.includes(firstImageIndex) || arrayOfThreeImg.includes(secondImageIndex)||arrayOfThreeImg.includes(thirdImageIndex)) {
+        firstImageIndex= generateRandomIndex();
         secondImageIndex = generateRandomIndex();
-      thirdImageIndex = generateRandomIndex();
+        thirdImageIndex = generateRandomIndex();
+        
     }
-    // to show image of products 
-    firstImageElement.setAttribute('src',BusMall.product[firstImageIndex].imgPath)
-   secondImageElement.setAttribute('src' ,BusMall.product[secondImageIndex].imgPath);
-    thirdImageElement.setAttribute('src',BusMall.product[thirdImageIndex].imgPath)
-
+    
+      
+    //to show image of products 
+    firstImageElement.setAttribute('src', BusMall.product[firstImageIndex].imgPath)
+    secondImageElement.setAttribute('src', BusMall.product[secondImageIndex].imgPath);
+    thirdImageElement.setAttribute('src', BusMall.product[thirdImageIndex].imgPath)
+    
+    
+      console.log(arrayOfThreeImg)
     // to count the no. of shown image 
     BusMall.product[firstImageIndex].imageShown++;
     BusMall.product[secondImageIndex].imageShown++;
     BusMall.product[thirdImageIndex].imageShown++;
-    
+    arrayOfThreeImg[0]=firstImageIndex;
+    arrayOfThreeImg[1]=secondImageIndex;
+   arrayOfThreeImg[2]=thirdImageIndex;
 
 
 }
@@ -107,11 +115,11 @@ function generateRandomIndex() {
 renderThreeRandomImages();
 
 
+
+
 firstImageElement.addEventListener('click', handleClicking);
 secondImageElement.addEventListener('click', handleClicking);
 thirdImageElement.addEventListener('click', handleClicking);
-
-
 
 
 function handleClicking(event) {
@@ -133,7 +141,7 @@ function handleClicking(event) {
         savedSelectedItem();
         renderThreeRandomImages();
         //console.log(BusMall.product)
-      
+
     } else {
         let unorderdList = document.getElementById('unList');
         let li;
@@ -144,158 +152,158 @@ function handleClicking(event) {
 
 
         }
-        for(let j=0 ; j<BusMall.product.length;j++)
-        {
+        for (let j = 0; j < BusMall.product.length; j++) {
             arrOfprodSelect.push(BusMall.product[j].prodSelect)
             arrImageShown.push(BusMall.product[j].imageShown)
-            
+
         }
-        
+    
         chartRender();
-        
+        firstImageElement.removeEventListener('click', handleClicking);
+        secondImageElement.removeEventListener('click', handleClicking);
+        thirdImageElement.removeEventListener('click', handleClicking);
 
     }
 }
-function resultBtn() {
-    let btn = document.getElementById('unList');
+//function resultBtn() {
+  //  let btn = document.getElementById('unList');
 
+//}
+function chartRender() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: arrOfProduct,
+
+            datasets: [{
+                label: 'Selected Item Chart',
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(191,230,0)',
+                    'rgb(255,153,153)',
+                    'rgb(102,255,230)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgb(221,204,255)',
+                    'rgb(77,255,225)',
+                    'rgb(255,255,153)',
+                    'rgb(221,204,255)',
+                    'rgb(149,255,128)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgb(221,204,255)',
+                    'rgb(149,255,128)',
+                    'rgb(255,179,102)',
+                    'rgb(102,255,230)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderColor: ['rgb(255, 99, 132)',
+                    'rgb(191,230,0)',
+                    'rgb(255,153,153)',
+                    'rgb(102,255,230)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgb(221,204,255)',
+                    'rgb(77,255,225)',
+                    'rgb(255,255,153)',
+                    'rgb(221,204,255)',
+                    'rgb(149,255,128)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgb(221,204,255)',
+                    'rgb(149,255,128)',
+                    'rgb(255,179,102)',
+                    'rgb(102,255,230)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1,
+                data: arrOfprodSelect,
+            }, {
+                label: 'Product Images Counter Chart',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgb(77,255,225)',
+                    'rgb(255,255,153)',
+                    'rgb(221,204,255)',
+                    'rgb(149,255,128)',
+                    'rgb(255,179,102)',
+                    'rgb(102,255,230)',
+                    'rgb(255,153,153)',
+                    'rgb(191,230,0)'
+
+
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgb(77,255,225,1)',
+                    'rgb(77,255,225,1)',
+                    'rgb(255,255,153,1)',
+                    'rgb(221,204,255,1)',
+                    'rgb(149,255,128,1)',
+                    'rgb(255,179,102,1)',
+                    'rgb(102,255,230,1)',
+                    'rgb(255,153,153,1)',
+                    'rgb(191,230,0,1)'
+                ],
+                borderWidth: 1,
+                data: arrImageShown,
+
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
 }
-function chartRender (){
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
 
-    // The data for our dataset
-    data: {
-        labels: arrOfProduct,
-        
-        datasets: [{
-            label: 'Selected Item Chart',
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(191,230,0)',
-                'rgb(255,153,153)',
-                'rgb(102,255,230)',
-                'rgba(153, 102, 255, 1)',
-                'rgb(221,204,255)',
-                'rgb(77,255,225)',
-                'rgb(255,255,153)',
-                'rgb(221,204,255)',
-                'rgb(149,255,128)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgb(221,204,255)',
-                'rgb(149,255,128)',
-                'rgb(255,179,102)',
-                'rgb(102,255,230)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)'
-        ],
-            borderColor: ['rgb(255, 99, 132)',
-            'rgb(191,230,0)',
-            'rgb(255,153,153)',
-            'rgb(102,255,230)',
-            'rgba(153, 102, 255, 1)',
-            'rgb(221,204,255)',
-            'rgb(77,255,225)',
-            'rgb(255,255,153)',
-            'rgb(221,204,255)',
-            'rgb(149,255,128)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgb(221,204,255)',
-            'rgb(149,255,128)',
-            'rgb(255,179,102)',
-            'rgb(102,255,230)',
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)'
-    ],
-            borderWidth: 1,
-            data: arrOfprodSelect,
-        },{
-            label:'Product Images Counter Chart',
-            backgroundColor:  [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgb(77,255,225)',
-                'rgb(255,255,153)',
-                'rgb(221,204,255)',
-                'rgb(149,255,128)',
-                'rgb(255,179,102)',
-                'rgb(102,255,230)',
-                'rgb(255,153,153)',
-                'rgb(191,230,0)'
-
-                
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgb(77,255,225,1)',
-                'rgb(77,255,225,1)',
-                'rgb(255,255,153,1)',
-                'rgb(221,204,255,1)',
-                'rgb(149,255,128,1)',
-                'rgb(255,179,102,1)',
-                'rgb(102,255,230,1)',
-                'rgb(255,153,153,1)',
-                'rgb(191,230,0,1)'
-            ],
-            borderWidth: 1,
-            data:arrImageShown,
-
-        }]
-    },
-
-    // Configuration options go here
-    options: {}
-});
-}
-
-function savedSelectedItem(){
+function savedSelectedItem() {
     let saved = JSON.stringify(BusMall.product);
-    localStorage.setItem('SelectedItem',saved);
+    localStorage.setItem('SelectedItem', saved);
     console.log(savedSelectedItem)
 }
 
-function getSelectedItem(){
+function getSelectedItem() {
     let selected = localStorage.getItem('SelectedItem')
     let item = JSON.parse(selected)
-    if(item){
-        BusMall.product=item ;
-    }else{
-        BusMall.product=[]
+    if (item) {
+        BusMall.product = item;
     }
-    renderThreeRandomImages();
+
+  //  renderThreeRandomImages();
 }
 getSelectedItem();
 
